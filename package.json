@@ -1,0 +1,26 @@
+{
+  "name": "modulo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @modulo/server --filter @modulo/editor dev",
+    "dev:server": "pnpm --filter @modulo/server dev",
+    "dev:editor": "pnpm --filter @modulo/editor dev",
+    "build:editor": "pnpm --filter @modulo/editor build",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "e2e": "playwright test",
+    "modulo": "tsx packages/cli/src/bin.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3"
+  }
+}

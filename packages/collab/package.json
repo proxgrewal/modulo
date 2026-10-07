@@ -1,0 +1,12 @@
+{
+  "name": "@modulo/collab",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@modulo/core": "workspace:*",
+    "yjs": "^13.6.33",
+    "y-protocols": "^1.0.7",
+    "lib0": "^0.2.119"
+  }
+}

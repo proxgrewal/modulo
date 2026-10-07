@@ -1,0 +1,7 @@
+{
+  "name": "@modulo/core",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": { "zod": "^4.6.5" }
+}

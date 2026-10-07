@@ -1,0 +1,7 @@
+{
+  "name": "@modulo/mod-ai",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": { "@modulo/core": "workspace:*", "@modulo/kernel": "workspace:*" }
+}

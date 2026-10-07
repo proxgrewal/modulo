@@ -1,0 +1,11 @@
+node_modules
+dist
+.modulo-data
+*.log
+.env
+.modulo-data*
+test-results
+playwright-report
+blob-report
+modules/**/.tmp-export-*
+e2e/.results

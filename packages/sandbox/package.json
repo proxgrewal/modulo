@@ -1,0 +1,11 @@
+{
+  "name": "@modulo/sandbox",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@modulo/core": "workspace:*",
+    "@modulo/kernel": "workspace:*",
+    "quickjs-emscripten": "^0.32.0"
+  }
+}

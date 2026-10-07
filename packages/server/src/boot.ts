@@ -43,5 +43,7 @@ export async function bootKernel(opts: BootOptions = {}): Promise<Kernel> {
   const kernel = await Kernel.create({ db, modules, log: opts.log });
   for (const d of discovered) await d.onKernelBoot?.(kernel);
   for (const h of opts.extraBootHooks ?? []) await h(kernel);
+  const added = await kernel.ensureRequiredModules();
+  for (const [slug, mods] of Object.entries(added)) opts.log?.(`installed required modules on ${slug}: ${mods.join(', ')}`);
   return kernel;
 }

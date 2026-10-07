@@ -406,6 +406,27 @@ export class Kernel {
     return u ? { id: u.id, email: u.email, name: u.name, isSuperadmin: u.is_superadmin, role: u.role, permissions: new Set(['*']) } : null;
   }
 
+  /**
+   * Install required modules that sites don't have yet (e.g. a required module added
+   * after those sites were created). Returns slug -> installed module names.
+   */
+  async ensureRequiredModules(): Promise<Record<string, string[]>> {
+    const required = this.catalog.names().filter((n) => this.catalog.get(n)[0]?.required);
+    const out: Record<string, string[]> = {};
+    for (const site of await this.listSites()) {
+      const have = new Set((await this.installedModules(site.id)).map((m) => m.name));
+      const missing = required.filter((n) => !have.has(n));
+      if (!missing.length) continue;
+      try {
+        await this.applyChange(site.id, { install: Object.fromEntries(missing.map((n) => [n, '*'])) });
+        out[site.slug] = missing;
+      } catch (e) {
+        this.log(`could not install required modules ${missing.join(', ')} on ${site.slug}`, e);
+      }
+    }
+    return out;
+  }
+
   async installedModules(siteId: string) {
     const rows = (await this.db.query(`SELECT module, version, auto, requested, settings, installed_at FROM modulo_site_modules WHERE site_id=$1 ORDER BY installed_at`, [siteId])).rows;
     return rows.map((r: any) => {

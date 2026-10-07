@@ -253,6 +253,16 @@ describe('kernel: modules', () => {
     await expect(kernel.applyChange(site.id, { uninstall: ['base'] })).rejects.toThrow(/required/);
   });
 
+  it('installs a newly required module on existing sites', async () => {
+    const extra = defineModule({ name: 'extra', version: '1.0.0', kernel: '^1.0.0', required: true });
+    await boot([base]);
+    const site = await kernel.createSite({ slug: 'old', name: 'Old' });
+    kernel.catalog.add(extra); // a required module shipped after the site existed
+    expect(await kernel.ensureRequiredModules()).toEqual({ old: ['extra'] });
+    expect((await kernel.installedModules(site.id)).map((m) => m.name).sort()).toEqual(['base', 'extra']);
+    expect(await kernel.ensureRequiredModules()).toEqual({});
+  });
+
   it('dispatches outbox events to subscribers only after commit', async () => {
     const seen: string[] = [];
     const audit = defineModule({
